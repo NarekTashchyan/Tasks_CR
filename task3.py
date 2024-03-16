@@ -6,30 +6,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def scrape_item_details(driver, item_url):
-    """
-    Function to scrape details of an item using Selenium.
-    
-    Args:
-    - driver: WebDriver instance.
-    - item_url: URL of the item page.
-    
-    Returns:
-    - item_details: Dictionary containing details of the item.
-    """
     item_details = {}
     try:
-        # Open the item page
         driver.get(item_url)
         
-        # Wait for the page to load
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "title")))
         
-        # Extract item details
         title = driver.find_element(By.CLASS_NAME, "title").text.strip()
         price = driver.find_element(By.CLASS_NAME, "price").text.strip()
         num_reviews = driver.find_element(By.CLASS_NAME, "ratings").text.strip()
         
-        # Store item details in a dictionary
         item_details['Title'] = title
         item_details['Price'] = price
         item_details['Number of Reviews'] = num_reviews
@@ -40,35 +26,22 @@ def scrape_item_details(driver, item_url):
     return item_details
 
 def save_to_file(url):
-    """
-    Function to scrape item details from a given URL and save them to a file.
-    
-    Args:
-    - url: URL of the page to scrape.
-    """
-    # Fetch the main URL using requests
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Find all item links on the main page
     item_links = [link['href'] for link in soup.find_all('a', class_='title')]
 
-    # Initialize the WebDriver instance
     driver = webdriver.Chrome()
 
-    # List to hold scraped item details
     scraped_data = []
 
-    # Iterate through each item link and scrape details using Selenium
     for link in item_links:
         item_url = f"https://webscraper.io{link}"
         item_details = scrape_item_details(driver, item_url)
         scraped_data.append(item_details)
 
-    # Close the browser window
     driver.quit()
 
-    # Save the scraped data into a text file
     with open("data.txt", "a", encoding="utf-8") as file:
         for item in scraped_data:
             file.write(f"Title: {item.get('Title', '')}\n")
