@@ -50,9 +50,6 @@ def save_to_file(url):
             file.write("\n")
 
 def all_categories():
-    """
-    Function to scrape data from all categories.
-    """
     main_url = 'https://webscraper.io/test-sites/e-commerce/allinone'
     save_to_file(main_url)
     categories = ['computers', 'phones']
