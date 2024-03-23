@@ -12,4 +12,4 @@ def fetch(url):
         print(f"An error occurred while connecting to {url}: {e}")
         return None
     
-print(fetch("https://hy.wikipedia.org/wiki/%D4%B1%D5%B6%D5%A4%D6%80%D5%A1%D5%B6%D5%AB%D5%AF_%D5%95%D5%A6%D5%A1%D5%B6%D5%B5%D5%A1%D5%B6"))
+print(fetch('http
